@@ -25,24 +25,13 @@ def cycle(grid):
 
 init = [list(grid[i]) for i in range(n)]
 seen = {}
-period = end = None
+period = start = None
 
 for i in range(1000000000):
     hsh = ''.join(''.join(grid[i]) for i in range(n))
     if hsh in seen:
-        end = hsh
+        start = seen[hsh]
         period = i - seen[hsh]
-        break
-    seen[hsh] = i
-    grid = cycle(grid)
-
-grid = [list(init[i]) for i in range(n)]
-start = None
-
-for i in range(1000000000):
-    hsh = ''.join(''.join(grid[i]) for i in range(n))
-    if hsh == end:
-        start = i
         break
     seen[hsh] = i
     grid = cycle(grid)
