@@ -15,8 +15,7 @@ D = ((0,1),(1,0),(0,-1),(-1,0)) #"RDLU"
 while Q:
     cost, i, j, t, d = heappop(Q)
     if (i, j) == (n-1, m-1):
-        print(cost)
-        break
+        print(cost) & exit()
     if t < 10:
         di, dj = D[d]
         if 0<=i+di<n and 0<=j+dj<m:
@@ -24,15 +23,10 @@ while Q:
             if newcost < dist[i+di][j+dj][t+1][d]:
                 dist[i+di][j+dj][t+1][d] = newcost
                 heappush(Q, (newcost, i+di, j+dj, t+1, d))
-    di, dj = D[(d-1)%4]
-    if 0<=i+4*di<n and 0<=j+4*dj<m:
-        newcost = cost + sum(grid[i+k*di][j+k*dj] for k in range(1, 5))
-        if newcost < dist[i+4*di][j+4*dj][4][(d-1)%4]:
-            dist[i+4*di][j+4*dj][4][(d-1)%4] = newcost
-            heappush(Q, (newcost, i+4*di, j+4*dj, 4, (d-1)%4))
-    di, dj = D[(d+1)%4]
-    if 0<=i+4*di<n and 0<=j+4*dj<m:
-        newcost = cost + sum(grid[i+k*di][j+k*dj] for k in range(1, 5))
-        if newcost < dist[i+4*di][j+4*dj][4][(d+1)%4]:
-            dist[i+4*di][j+4*dj][4][(d+1)%4] = newcost
-            heappush(Q, (newcost, i+4*di, j+4*dj, 4, (d+1)%4))
+    for dd in (-1, 1):
+        di, dj = D[(d+dd)%4]
+        if 0<=i+4*di<n and 0<=j+4*dj<m:
+            newcost = cost + sum(grid[i+k*di][j+k*dj] for k in range(1, 5))
+            if newcost < dist[i+4*di][j+4*dj][4][(d+dd)%4]:
+                dist[i+4*di][j+4*dj][4][(d+dd)%4] = newcost
+                heappush(Q, (newcost, i+4*di, j+4*dj, 4, (d+dd)%4))
